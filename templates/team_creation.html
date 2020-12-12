@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block create_team %}
+    <h3><strong>Create your teams here...</strong></h3>
+    {% if not team_name %}
+        <form method="post" action="{% url 'create_teams' %}">
+{#        <form method="post" action="{% url 'create_teams' %}" onsubmit="return uk_data_providers()">#}
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <input type="number" class="form-control" id="inputSprint" name="sprint" required>
+                    <span><strong>Enter Sprint Number</strong></span>
+                </div>
+                </br>
+                <div class="form-group col-md-2">
+                    <input type="text" class="form-control" id="inputName" name="team_name" required>
+                    <span><strong>Name of Team</strong></span>
+                </div>
+                </br>
+                <div class="form-group col-md-4">
+                    <input type="number" class="form-control" id="inputSize" name="team_size" required>
+                    <span><strong>Number in Team</strong></span>
+                </div>
+                </br>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success" id="createTeamButton">Create and Add to Team</button>
+                </div>
+            </div>
+        </form>
+    {% else%}
+        <h3>{{ team_name }}</h3>
+        <p><strong>Number in Team</strong>: {{ team_size }}</p>
+        <form method="post" action="/set_teams/{{ sprint_number }}/{{ team_name }}/{{ team_size }}/">
+            {% csrf_token %}
+                {% for person in person_count %}
+                    <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <input type="text" class="form-control" id="inputMemberName{{ person }}" name="member_name{{ person }}" required>
+                        <span><strong>Member Name</strong></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <input type="checkbox" class="form-control" id="inputMemberApprentice{{ person }}" name="apprentice{{ person }}">
+                        <span><strong>Is Apprentice?</strong></span>
+                    </div>
+                        <div class="form-group col-md-4">
+                        <input type="checkbox" class="form-control" id="inputMemberDev{{ person }}" name="developer{{ person }}">
+                        <span><strong>Is Developer?</strong></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <input type="checkbox" class="form-control" id="inputMemberSenior{{ person }}" name="senior{{ person }}">
+                        <span><strong>Is Senior?</strong></span>
+                    </div>
+                    </div>
+                {% endfor %}
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success" id="randomiseButton">Save Team and Randomise</button>
+                </div>
+        </form>
+    {% endif %}
+{% endblock %}

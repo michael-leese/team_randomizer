@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% block content %}
+    <h2>The {{ team_name }} Randomiser</h2>
+    <div class="col-md-12">
+    {% if teams %}
+        <p>The randomised teams are as follows:</p>
+        {% for team in teams %}
+        <p>{{ teams|get_item:team }}</p>
+        {% endfor %}
+    {% else %}
+        <p>The randomising of teams have failed on this occassion!</p>
+    {% endif %}
+    </div>
+
+{% endblock %}
